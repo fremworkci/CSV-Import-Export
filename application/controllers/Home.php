@@ -27,6 +27,33 @@ class Home extends CI_Controller
 		}
 		redirect("Home");
 	}
+	
+	<!-- -----------------------insert Unique recor or jo record match karega usko update kar dega----------------------- -->
+	function csvupload()
+	{
+		$filename=$_FILES["file"]["tmp_name"];// temp file name
+		if($_FILES["file"]["size"] > 0) //if file empity na ho
+		{
+			$file=fopen($filename, 'r');
+			while(($getdata=fgetcsv($file,1000,","))!==FALSE)
+			{
+				$email=$getdata['2'];
+				$qry1=$this->StudentModel->check($email);
+				if($qry1  >0)
+				{
+					$this->db->where("email",$email);
+					$updateqry=$this->db->update("student",array('name'=>$getdata[1],'email'=>$getdata[2],'password'=>$getdata[3],'mobile'=>$getdata[4]));
+				}
+				else
+				{
+					$qry=$this->db->insert("student",array('name'=>$getdata[1],'email'=>$getdata[2],'password'=>$getdata[3],'mobile'=>$getdata[4]));
+				}
+			}
+
+		}
+		redirect("StudentController/profile");
+	}	
+	<!-- ----------------------- End insert Unique recor or jo record match karega usko update kar dega----------------------- -->		
 
 
 	function export()
