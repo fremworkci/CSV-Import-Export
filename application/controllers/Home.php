@@ -37,9 +37,9 @@ class Home extends CI_Controller
 			$file=fopen($filename, 'r');
 			while(($getdata=fgetcsv($file,1000,","))!==FALSE)
 			{
-				$email=$getdata['2'];
-				$qry1=$this->StudentModel->check($email);
-				if($qry1  >0)
+				$email=$getdata['2']; //email ko fetch kiya
+				$qry1=$this->StudentModel->check($email); //check kar raha hu ki ye email pahle se hai ya nahi.
+				if($qry1  >0) 
 				{
 					$this->db->where("email",$email);
 					$updateqry=$this->db->update("student",array('name'=>$getdata[1],'email'=>$getdata[2],'password'=>$getdata[3],'mobile'=>$getdata[4]));
