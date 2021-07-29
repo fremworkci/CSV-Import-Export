@@ -17,5 +17,13 @@ class Model1 extends CI_model
 		$qry=$this->db->get();
 		return $qry->result();
 	}
+	
+	function check($email)
+	{
+		$this->db->select("*");
+		$this->db->from("student");
+		$this->db->where("email",$email);
+		return $this->db->count_all_results();
+	}
 }
 ?>
